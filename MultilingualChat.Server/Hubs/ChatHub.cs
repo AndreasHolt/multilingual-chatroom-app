@@ -9,6 +9,7 @@ public class ChatHub: Hub
     // 2. They can then invoke the exposed function SendMessage at that endpoint, which then sends the message to all other endpoints
     public async Task SendMessage(string message, string user)
     {
+        Console.WriteLine("INVOKED");
         await Clients.All.SendAsync("ReceiveMessage", message, user);
         
     }

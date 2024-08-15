@@ -27,7 +27,8 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
     
     public async void HandleButtonClick()
     {
-        await _signalRService.StopConnectionAsync();
+        var connection = _signalRService.GetConnection();
+        await connection.InvokeAsync("SendMessage", "Test message", "Test username");
         Counter += 1;
         Console.WriteLine(Counter);
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Counter)));
