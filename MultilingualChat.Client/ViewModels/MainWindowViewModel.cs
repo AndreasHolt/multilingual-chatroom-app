@@ -65,7 +65,7 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
         // Console.WriteLine(Counter);
         // PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Counter)));
         InputContent = "";
-
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(InputContent)));
 
     }
 

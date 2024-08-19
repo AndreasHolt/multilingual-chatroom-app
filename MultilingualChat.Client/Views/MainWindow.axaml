@@ -35,22 +35,34 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
 
-            <!-- Chat messages list -->
+            
             <ScrollViewer Grid.Row="1" Margin="0 0 0 10">
                 <ItemsControl ItemsSource="{Binding ChatMessages}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border Background="#30FFFFFF" CornerRadius="5" Padding="10" Margin="0 5">
-                                <StackPanel>
-                                    <TextBlock Text="{Binding MessageSender}" FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding MessageText}" TextWrapping="Wrap"/>
-                                </StackPanel>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="{Binding MessageSender}" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding MessageText}" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                    <TextBlock Grid.Column="1" 
+                                               Text="{Binding MessageTimestamp}" 
+                                               VerticalAlignment="Top" 
+                                               HorizontalAlignment="Right"
+                                               Margin="10 0 0 0"
+                                               Foreground="#80000000"/>
+                                </Grid>
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </ScrollViewer>
-
+            
             <!-- Input area -->
             <Grid Grid.Row="2" ColumnDefinitions="*,Auto">
                 <TextBox Grid.Column="0" Watermark="Enter a chat message" Text="{Binding InputContent}" Margin="0 0 10 0"/>
