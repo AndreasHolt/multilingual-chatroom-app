@@ -10,7 +10,7 @@ public class ChatHub: Hub
     public async Task SendMessage(string message, string user)
     {
         Console.WriteLine("INVOKED");
-        await Clients.All.SendAsync("ReceiveMessage", message, user);
+        await Clients.All.SendAsync("SendMessage", message, user);
         
     }
     
