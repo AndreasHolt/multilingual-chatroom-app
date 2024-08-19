@@ -3,6 +3,7 @@
         xmlns:vm="using:MultilingualChat.Client.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:MultilingualChat.Client.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="MultilingualChat.Client.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -13,18 +14,6 @@
         ExtendClientAreaToDecorationsHint="True"
         WindowStartupLocation="CenterScreen">
 
-    <!-- <Design.DataContext> -->
-    <!--     <vm:MainWindowViewModel/> -->
-    <!-- </Design.DataContext> -->
-
-    <!-- <Grid RowDefinitions="Auto, *, Auto" x:Name="Root"> -->
-    <!--     <TextBlock Text="Multilingual Chat" Classes="h1"></TextBlock> -->
-    <!--     <Button Grid.Row="1" Command="{Binding HandleButtonClick}" Content="{Binding Counter}"></Button> -->
-    <!--      -->
-    <!--     ~1~ <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/> @1@ -->
-    <!--     -->
-    <!-- </Grid> -->
-    
     <Panel>
         <ExperimentalAcrylicBorder IsHitTestVisible="False">
             <ExperimentalAcrylicBorder.Material>
@@ -32,41 +21,43 @@
                                             TintColor="Black"
                                             TintOpacity="1"
                                             MaterialOpacity="0.65">
-                   
                </ExperimentalAcrylicMaterial> 
             </ExperimentalAcrylicBorder.Material>
-            
         </ExperimentalAcrylicBorder>
-        <Panel Margin="40">
-            <Button HorizontalAlignment="Right" VerticalAlignment="Top"> <PathIcon Data="{StaticResource send_message}"/></Button>
-        </Panel>
         
-        <ItemsControl Margin="0 40 0 0" ItemsSource="{Binding LanguageList}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding LanguageName}"></TextBlock>
-                        
-                    </StackPanel>
-                </DataTemplate>
-
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-        
-        <StackPanel Margin="20">
-            <ComboBox ItemsSource="{Binding LanguageList}" SelectedIndex="0" Width="200" MaxDropDownHeight="300">
+        <Grid RowDefinitions="Auto,*,Auto" Margin="20">
+            <!-- Language selection -->
+            <ComboBox Grid.Row="0" ItemsSource="{Binding LanguageList}" SelectedIndex="0" Width="200" MaxDropDownHeight="300" Margin="0 0 0 10">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding LanguageName}"></TextBlock>
+                        <TextBlock Text="{Binding LanguageName}"/>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-        </StackPanel>
-        
-    </Panel>
-    
-        
-        
-        
 
+            <!-- Chat messages list -->
+            <ScrollViewer Grid.Row="1" Margin="0 0 0 10">
+                <ItemsControl >
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="#30FFFFFF" CornerRadius="5" Padding="10" Margin="0 5">
+                                <StackPanel>
+                                    <TextBlock Text="Content" FontWeight="Bold"/>
+                                    <TextBlock Text="Content" TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+            <!-- Input area -->
+            <Grid Grid.Row="2" ColumnDefinitions="*,Auto">
+                <TextBox Grid.Column="0" Watermark="Enter a chat message" Text="Test" Margin="0 0 10 0"/>
+                <Button Grid.Column="1">
+                    <PathIcon Data="{StaticResource send_message}"/>
+                </Button>
+            </Grid>
+        </Grid>
+    </Panel>
 </Window>
