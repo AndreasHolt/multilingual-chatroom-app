@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using System;
 using Avalonia.Media.Transformation;
+using Avalonia.ReactiveUI;
 
 namespace MultilingualChat.Client;
 
@@ -18,7 +19,8 @@ sealed class Program
         => AppBuilder.Configure<App>()
             .UsePlatformDetect()
             .WithInterFont()
-            .LogToTrace();
+            .LogToTrace()
+            .UseReactiveUI();
     
     
 }

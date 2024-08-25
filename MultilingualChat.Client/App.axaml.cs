@@ -29,15 +29,30 @@ public partial class App : Application
         var vm = serviceProvider.GetRequiredService<MainWindowViewModel>();
        
         
+        
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            // Line below is needed to remove Avalonia data validation.
-            // Without this line you will get duplicate validations from both Avalonia and CT
-            BindingPlugins.DataValidators.RemoveAt(0);
-            desktop.MainWindow = new MainWindow
+            // Set up mainWindow which should appear after dialogue
+            var mainWindow = new MainWindow
             {
                 DataContext = vm
             };
+            desktop.MainWindow = mainWindow;
+            mainWindow.Show();
+           
+            // Set up the user setup dialogue
+            var userSetupWindow = new UserSetupWindow();
+            var result = await userSetupWindow.ShowDialog<bool>(desktop.MainWindow);
+
+            if (result)
+            {
+                // Line below is needed to remove Avalonia data validation.
+                // Without this line you will get duplicate validations from both Avalonia and CT
+                BindingPlugins.DataValidators.RemoveAt(0);
+                
+                
+                
+            }
         }
 
 
