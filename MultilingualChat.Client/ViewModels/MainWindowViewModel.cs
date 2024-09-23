@@ -39,8 +39,9 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
         {
             new Language("Danish"),
             new Language("English"),
-
+            
         });
+        Console.WriteLine("Instantiating LanguageList");
         
         _connection.On<string, string>("SendMessage", (message, sender) =>
         {

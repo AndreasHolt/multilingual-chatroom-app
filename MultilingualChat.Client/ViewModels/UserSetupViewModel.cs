@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reactive;
 using System.Runtime.InteropServices;
@@ -10,6 +11,15 @@ namespace MultilingualChat.Client.ViewModels;
 
 public class UserSetupViewModel : ReactiveObject
 {
+    public UserSetupViewModel()
+    {
+        LanguageList = new ObservableCollection<Language>(new List<Language>
+        {
+            new Language("Danish"),
+            new Language("English"),
+            
+        });
+    }
     public bool IsSetupCompleted { get; private set; } = false;
 
     private string _username;
@@ -27,22 +37,23 @@ public class UserSetupViewModel : ReactiveObject
     }
 
     
-    public string SelectedLanguageName { get; set; }
+    public Language SelectedLanguageName { get; set; }
 
     public bool ConfirmCommand()
     {
-        Console.WriteLine("Confirm");
+        Console.WriteLine("Username is " + Username);
+        Console.WriteLine("Selected language is " + SelectedLanguageName.LanguageName);
         return true;
     }
     
     // public ObservableCollection<Language> LanguageList { get; set; }
-    public ObservableCollection<Language> Languages { get; set; }
+    public ObservableCollection<Language> LanguageList { get; set; }
     public ReactiveCommand<Unit, UserSetupResult> StartChatCommand { get; }
 
     public UserSetupResult StartChat()
     {
         IsSetupCompleted = true;
-        return new UserSetupResult() { Username = Username, Language = SelectedLanguageName };
+        return new UserSetupResult() { Username = Username, Language = SelectedLanguageName.LanguageName };
     }
 
 }

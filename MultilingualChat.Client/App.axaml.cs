@@ -1,3 +1,5 @@
+using System;
+using System.Runtime.InteropServices;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
@@ -22,6 +24,7 @@ public partial class App : Application
     {
         var services = new ServiceCollection();
         services.AddTransient<MainWindowViewModel>();
+        services.AddTransient<UserSetupViewModel>(); // Does this need to be done?
         
         services.AddSingleton<SignalRService>(); // Here we register SignalRService as a singleton
         var serviceProvider = services.BuildServiceProvider();
@@ -41,8 +44,10 @@ public partial class App : Application
             mainWindow.Show();
            
             // Set up the user setup dialogue
-            var userSetupWindow = new UserSetupWindow();
+            var userSetupVm = serviceProvider.GetRequiredService<UserSetupViewModel>();
+            var userSetupWindow = new UserSetupWindow { DataContext = userSetupVm };
             var result = await userSetupWindow.ShowDialog<bool>(desktop.MainWindow);
+            Console.WriteLine("Result is " + result);
 
             if (result)
             {

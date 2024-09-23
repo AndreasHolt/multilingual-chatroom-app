@@ -20,7 +20,7 @@
     <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="*,Auto,*" Margin="20">
         <!-- Centering ComboBox -->
         <ComboBox Grid.Row="0" Grid.Column="1" 
-                  ItemsSource="{Binding Languages}" 
+                  ItemsSource="{Binding LanguageList}" 
                   SelectedValue="{Binding SelectedLanguageName}" 
                   SelectedIndex="0" 
                   Width="200" 
