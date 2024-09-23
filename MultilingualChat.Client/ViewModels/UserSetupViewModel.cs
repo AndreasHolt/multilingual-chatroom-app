@@ -1,5 +1,7 @@
+using System;
 using System.Collections.ObjectModel;
 using System.Reactive;
+using System.Runtime.InteropServices;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.AspNetCore.SignalR.Protocol;
 using ReactiveUI;
@@ -29,7 +31,8 @@ public class UserSetupViewModel : ReactiveObject
 
     public bool ConfirmCommand()
     {
-        )
+        Console.WriteLine("Confirm");
+        return true;
     }
     
     // public ObservableCollection<Language> LanguageList { get; set; }

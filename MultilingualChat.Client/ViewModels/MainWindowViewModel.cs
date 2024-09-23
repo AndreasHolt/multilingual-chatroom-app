@@ -6,18 +6,27 @@ using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
 using HarfBuzzSharp;
+using Microsoft.VisualBasic;
 using MultilingualChat.Client.Services;
+using MultilingualChat.Client.Views;
 
 namespace MultilingualChat.Client.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
 {
+    
     private readonly SignalRService _signalRService;
     private HubConnection _connection;
 
     public string InputContent { get; set; }
-    
-    
+    public string SelectedLanguageName { get; set; }
+    public string Username { get; set; }
+
+    public void Initialize(string username, string language)
+    {
+        Username = username;
+        SelectedLanguageName = language;
+    }
 
     public ObservableCollection<Language> LanguageList { get; set; }
     
@@ -44,7 +53,7 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
             Console.WriteLine("ON MESSAGE");
             Console.WriteLine(message);
         });
-        Console.WriteLine("ONE ITERATION");
+
 
     }
 
@@ -66,6 +75,10 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
         // PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Counter)));
         InputContent = "";
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(InputContent)));
+
+        Console.WriteLine(SelectedLanguageName);
+        
+        
 
     }
 

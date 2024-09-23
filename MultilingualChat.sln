@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultilingualChat.Server", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultilingualChat.Client", "MultilingualChat.Client\MultilingualChat.Client.csproj", "{F90383CA-604D-4A7E-B96C-CAA21EF54937}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tests", "tests\tests.csproj", "{41F1FC25-E192-4415-A38E-62F60FC768B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{F90383CA-604D-4A7E-B96C-CAA21EF54937}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F90383CA-604D-4A7E-B96C-CAA21EF54937}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F90383CA-604D-4A7E-B96C-CAA21EF54937}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41F1FC25-E192-4415-A38E-62F60FC768B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41F1FC25-E192-4415-A38E-62F60FC768B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41F1FC25-E192-4415-A38E-62F60FC768B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41F1FC25-E192-4415-A38E-62F60FC768B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
