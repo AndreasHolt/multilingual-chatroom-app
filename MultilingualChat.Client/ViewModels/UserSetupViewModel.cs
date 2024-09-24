@@ -39,8 +39,11 @@ public class UserSetupViewModel : ReactiveObject
     
     public Language SelectedLanguageName { get; set; }
 
+    public event Action<UserSetupResult> UserConfirmed;
+
     public bool ConfirmCommand()
     {
+        UserConfirmed?.Invoke(new UserSetupResult() { Username = Username, Language = SelectedLanguageName.LanguageName });
         Console.WriteLine("Username is " + Username);
         Console.WriteLine("Selected language is " + SelectedLanguageName.LanguageName);
         return true;

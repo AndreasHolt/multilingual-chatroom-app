@@ -46,6 +46,9 @@ public partial class App : Application
             // Set up the user setup dialogue
             var userSetupVm = serviceProvider.GetRequiredService<UserSetupViewModel>();
             var userSetupWindow = new UserSetupWindow { DataContext = userSetupVm };
+            
+            userSetupVm.UserConfirmed += vm.OnUserConfirmed;
+            
             var result = await userSetupWindow.ShowDialog<bool>(desktop.MainWindow);
             Console.WriteLine("Result is " + result);
 

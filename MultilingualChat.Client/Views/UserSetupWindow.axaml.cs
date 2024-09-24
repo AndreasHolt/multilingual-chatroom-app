@@ -1,3 +1,4 @@
+using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
@@ -13,10 +14,11 @@ public partial class UserSetupWindow : Window
         InitializeComponent();
     }
     
-    private void InitializeComponent()
+
+    public void CloseWithResult(UserSetupResult result)
     {
-        AvaloniaXamlLoader.Load(this);
-        _view = new UserSetupViewModel();
-        this.Content = _view;
+        Console.WriteLine("Result is " + result.Username);
+        result = _view.StartChat();
+        Close(result);
     }
 }

@@ -14,35 +14,33 @@ namespace MultilingualChat.Client.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
 {
-    
     private readonly SignalRService _signalRService;
     private HubConnection _connection;
-
     public string InputContent { get; set; }
-    public string SelectedLanguageName { get; set; }
     public string Username { get; set; }
-
-    public void Initialize(string username, string language)
-    {
-        Username = username;
-        SelectedLanguageName = language;
-    }
+    public string SelectedLanguageName { get; set; }
 
     public ObservableCollection<Language> LanguageList { get; set; }
-    
+
     public ObservableCollection<Message> ChatMessages { get; set; } = new ObservableCollection<Message>();
-    public MainWindowViewModel(SignalRService signalRService)
+
+    public void OnUserConfirmed(UserSetupResult result)
     {
+        Username = result.Username;
+        SelectedLanguageName = result.Language;
+    }
+
+    public MainWindowViewModel(SignalRService signalRService, UserSetupViewModel userSetupViewModel)
+    {
+        userSetupViewModel.UserConfirmed += OnUserConfirmed;
         _signalRService = signalRService;
         _connection = _signalRService.GetConnection();
         LanguageList = new ObservableCollection<Language>(new List<Language>
         {
             new Language("Danish"),
             new Language("English"),
-            
         });
-        Console.WriteLine("Instantiating LanguageList");
-        
+
         _connection.On<string, string>("SendMessage", (message, sender) =>
         {
             ChatMessages.Add(new Message
@@ -54,34 +52,18 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
             Console.WriteLine("ON MESSAGE");
             Console.WriteLine(message);
         });
-
-
     }
-
-
-
 
     public new event PropertyChangedEventHandler? PropertyChanged;
     public int Counter { get; set; } = 0;
-    
-    
-    
+
     public async void HandleButtonClick()
     {
-        
         var connection = _signalRService.GetConnection();
-        await connection.InvokeAsync("SendMessage", InputContent, "User1");
-        // Counter += 1;
-        // Console.WriteLine(Counter);
-        // PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Counter)));
+        await connection.InvokeAsync("SendMessage", InputContent, Username);
         InputContent = "";
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(InputContent)));
 
         Console.WriteLine(SelectedLanguageName);
-        
-        
-
     }
-
-
 }
