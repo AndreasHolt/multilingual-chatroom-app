@@ -43,12 +43,16 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
 
         _connection.On<string, string>("SendMessage", (message, sender) =>
         {
-            ChatMessages.Add(new Message
+            if (message != "" && message != null)
             {
-                MessageText = message,
-                MessageSender = sender,
-                MessageTimestamp = DateTime.Now
-            });
+                ChatMessages.Add(new Message
+                {
+                    MessageText = message,
+                    MessageSender = sender,
+                    MessageTimestamp = DateTime.Now
+                });
+            }
+
             Console.WriteLine("ON MESSAGE");
             Console.WriteLine(message);
         });
