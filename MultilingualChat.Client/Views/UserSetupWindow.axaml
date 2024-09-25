@@ -20,6 +20,7 @@
     <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="*,Auto,*" Margin="20">
         <!-- Centering ComboBox -->
         <ComboBox Grid.Row="0" Grid.Column="1" 
+                  Name="LanguageComboBox"
                   ItemsSource="{Binding LanguageList}" 
                   SelectedValue="{Binding SelectedLanguageName}" 
                   SelectedIndex="0" 
@@ -36,6 +37,7 @@
 
         <!-- Username input -->
         <TextBox Grid.Row="1" Grid.Column="1" 
+                 Name="UsernameInput"
                  Width="200" 
                  HorizontalAlignment="Center" 
                  Margin="0 10 0 10" 
@@ -44,6 +46,7 @@
 
         <!-- Confirm button -->
         <Button Grid.Row="2" Grid.Column="1" 
+                Click="ConfirmButton_Click"
                 Width="100" 
                 HorizontalAlignment="Center" 
                 Content="Confirm" 

@@ -1,6 +1,7 @@
 using System;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using MultilingualChat.Client.ViewModels;
 
@@ -13,7 +14,17 @@ public partial class UserSetupWindow : Window
     {
         InitializeComponent();
     }
-    
+
+    private void ConfirmButton_Click(object sender, RoutedEventArgs e)
+    {
+        Console.WriteLine("Test");
+        if (!string.IsNullOrEmpty(UsernameInput.Text) && LanguageComboBox.SelectedItem != null)
+        {
+            Close(true);
+            
+        }
+        
+    }
 
     public void CloseWithResult(UserSetupResult result)
     {

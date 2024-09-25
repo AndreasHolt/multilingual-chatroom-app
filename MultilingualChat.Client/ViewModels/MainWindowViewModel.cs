@@ -3,12 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Microsoft.AspNetCore.SignalR.Client;
 using System.ComponentModel;
-using System.Runtime.InteropServices;
-using System.Windows.Input;
-using HarfBuzzSharp;
-using Microsoft.VisualBasic;
 using MultilingualChat.Client.Services;
-using MultilingualChat.Client.Views;
 
 namespace MultilingualChat.Client.ViewModels;
 

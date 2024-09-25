@@ -54,6 +54,7 @@ public partial class App : Application
 
             if (result)
             {
+                Console.WriteLine("Result is " + result);
                 // Line below is needed to remove Avalonia data validation.
                 // Without this line you will get duplicate validations from both Avalonia and CT
                 BindingPlugins.DataValidators.RemoveAt(0);

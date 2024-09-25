@@ -41,12 +41,17 @@ public class UserSetupViewModel : ReactiveObject
 
     public event Action<UserSetupResult> UserConfirmed;
 
-    public bool ConfirmCommand()
+    public void ConfirmCommand()
     {
-        UserConfirmed?.Invoke(new UserSetupResult() { Username = Username, Language = SelectedLanguageName.LanguageName });
-        Console.WriteLine("Username is " + Username);
-        Console.WriteLine("Selected language is " + SelectedLanguageName.LanguageName);
-        return true;
+        if (!string.IsNullOrEmpty(Username) || SelectedLanguageName != null)
+        {
+            UserConfirmed?.Invoke(new UserSetupResult() { Username = Username, Language = SelectedLanguageName.LanguageName });
+            Console.WriteLine("Username is " + Username);
+            Console.WriteLine("Selected language is " + SelectedLanguageName.LanguageName);
+            
+        }
+        
+        
     }
     
     // public ObservableCollection<Language> LanguageList { get; set; }
