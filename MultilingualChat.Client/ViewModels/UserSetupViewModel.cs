@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
-using System.Reactive;
-using System.Runtime.InteropServices;
-using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.AspNetCore.SignalR.Protocol;
 using ReactiveUI;
 
 namespace MultilingualChat.Client.ViewModels;
@@ -17,7 +13,7 @@ public class UserSetupViewModel : ReactiveObject
     {
         LanguageList = new ObservableCollection<Language>(
             CultureInfo.GetCultures(CultureTypes.NeutralCultures)
-                .Where(c => c.Name!= "")
+                .Where(c => c.Name != "")
                 .OrderBy(c => c.EnglishName)
                 .Select(c => new Language(c.EnglishName))
                 .Distinct(new LanguageComparer())
@@ -42,7 +38,6 @@ public class UserSetupViewModel : ReactiveObject
         set => this.RaiseAndSetIfChanged(ref _selectedLanguage, value);
     }
 
-
     public Language SelectedLanguageName { get; set; }
 
     public event Action<UserSetupResult> UserConfirmed;
@@ -58,9 +53,7 @@ public class UserSetupViewModel : ReactiveObject
         }
     }
 
-    // public ObservableCollection<Language> LanguageList { get; set; }
     public ObservableCollection<Language> LanguageList { get; set; }
-    public ReactiveCommand<Unit, UserSetupResult> StartChatCommand { get; }
 
     public UserSetupResult StartChat()
     {
@@ -74,7 +67,6 @@ public class UserSetupResult
     public string Username { get; set; }
     public string Language { get; set; }
 }
-
 
 public class LanguageComparer : IEqualityComparer<Language>
 {
