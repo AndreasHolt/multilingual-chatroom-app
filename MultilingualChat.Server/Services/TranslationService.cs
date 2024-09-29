@@ -6,4 +6,5 @@ namespace MultilingualChat.Server.Services;
 public class TranslationService
 {
     
+    
 }

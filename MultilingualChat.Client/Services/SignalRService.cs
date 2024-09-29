@@ -22,6 +22,8 @@ public class SignalRService
         try
         {
             await _connection.StartAsync();
+            // TODO: Redesign to establish connection at "Confirm" button click, rather than at startup
+            await _connection.SendAsync("JoinChat", "TestUsername", "en");
             Console.WriteLine("Connected to SignalR hub");
 
         }

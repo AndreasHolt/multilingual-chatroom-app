@@ -20,8 +20,6 @@ public class UserSetupViewModel : ReactiveObject
         );
     }
 
-    public bool IsSetupCompleted { get; private set; } = false;
-
     private string _username;
 
     public string Username
@@ -57,7 +55,6 @@ public class UserSetupViewModel : ReactiveObject
 
     public UserSetupResult StartChat()
     {
-        IsSetupCompleted = true;
         return new UserSetupResult() { Username = Username, Language = SelectedLanguageName.LanguageName };
     }
 }

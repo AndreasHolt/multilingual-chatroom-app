@@ -30,11 +30,6 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
         userSetupViewModel.UserConfirmed += OnUserConfirmed;
         _signalRService = signalRService;
         _connection = _signalRService.GetConnection();
-        LanguageList = new ObservableCollection<Language>(new List<Language>
-        {
-            new Language("Danish"),
-            new Language("English"),
-        });
 
         _connection.On<string, string>("SendMessage", (message, sender) =>
         {
@@ -50,7 +45,10 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
 
             Console.WriteLine("ON MESSAGE");
             Console.WriteLine(message);
+            _connection.SendAsync("GetAllUsers");
         });
+        
+        // We add a connection to the 
     }
 
     public new event PropertyChangedEventHandler? PropertyChanged;

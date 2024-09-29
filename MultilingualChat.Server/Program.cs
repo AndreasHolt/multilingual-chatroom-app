@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.SignalR;
 using MultilingualChat.Server.Hubs;
+using MultilingualChat.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSignalR();
+builder.Services.AddSingleton<IUserManager, UserManager>();
 
 var app = builder.Build();
 
