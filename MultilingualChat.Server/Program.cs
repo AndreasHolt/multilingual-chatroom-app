@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Options;
 using MultilingualChat.Server.Hubs;
 using MultilingualChat.Server.Services;
 
@@ -17,7 +18,11 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.RoutePrefix = "swagger";
+        
+    });
 }
 
 app.UseHttpsRedirection();

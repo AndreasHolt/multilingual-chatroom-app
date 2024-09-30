@@ -47,6 +47,12 @@ public class UserManager: IUserManager
         _users.TryRemove(connectionId, out _);
         return Task.CompletedTask;
     }
+
+    public Task<User?> GetUserAsync(string connectionId)
+    {
+        _users.TryGetValue(connectionId, out var user);
+        return Task.FromResult(user);
+    }
     
     
     
@@ -57,4 +63,6 @@ public interface IUserManager
     Task AddUserAsync(string connectionId,string username, string language);
     
     Task<IEnumerable<User>> GetAllUsersAsync();
+    
+    Task<User?> GetUserAsync(string connectionId);
 }

@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
+using MultilingualChat.Client.Services;
 using ReactiveUI;
 
 namespace MultilingualChat.Client.ViewModels;
 
 public class UserSetupViewModel : ReactiveObject
 {
-    public UserSetupViewModel()
+    private readonly SignalRService _signalRService;
+    public UserSetupViewModel(SignalRService signalRService)
     {
+        _signalRService = signalRService;
+        
         LanguageList = new ObservableCollection<Language>(
             CultureInfo.GetCultures(CultureTypes.NeutralCultures)
                 .Where(c => c.Name != "")
@@ -40,7 +45,7 @@ public class UserSetupViewModel : ReactiveObject
 
     public event Action<UserSetupResult> UserConfirmed;
 
-    public void ConfirmCommand()
+    public async Task ConfirmCommand()
     {
         if (!string.IsNullOrEmpty(Username) || SelectedLanguageName != null)
         {
@@ -48,6 +53,8 @@ public class UserSetupViewModel : ReactiveObject
                 { Username = Username, Language = SelectedLanguageName.LanguageName });
             Console.WriteLine("Username is " + Username);
             Console.WriteLine("Selected language is " + SelectedLanguageName.LanguageName);
+
+            await _signalRService.StartConnectionAsync();
         }
     }
 

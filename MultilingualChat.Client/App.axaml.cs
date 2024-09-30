@@ -72,7 +72,7 @@ public partial class App : Application
         // Here we start the SignalR connection
         // Start the connection after the base call to avoid blocking the main thread with SignalR.
         // Otherwise GUI doesn't open
-        var signalRService = serviceProvider.GetRequiredService<SignalRService>();
-        await signalRService.StartConnectionAsync(); 
+        // var signalRService = serviceProvider.GetRequiredService<SignalRService>();
+        // await signalRService.StartConnectionAsync();  
     }
 }

@@ -23,16 +23,13 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
     {
         Username = result.Username;
         SelectedLanguageName = result.Language;
-    }
 
-    public MainWindowViewModel(SignalRService signalRService, UserSetupViewModel userSetupViewModel)
-    {
-        userSetupViewModel.UserConfirmed += OnUserConfirmed;
-        _signalRService = signalRService;
         _connection = _signalRService.GetConnection();
+        Console.WriteLine("CLIENT: Connection created to id " + _connection.ConnectionId);
 
         _connection.On<string, string>("SendMessage", (message, sender) =>
         {
+            Console.WriteLine("MESSAGE RECEIVED ON CLIENT SIDE");
             if (message != "" && message != null)
             {
                 ChatMessages.Add(new Message
@@ -47,7 +44,14 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
             Console.WriteLine(message);
             _connection.SendAsync("GetAllUsers");
         });
-        
+    }
+
+    public MainWindowViewModel(SignalRService signalRService, UserSetupViewModel userSetupViewModel)
+    {
+        _signalRService = signalRService;
+        userSetupViewModel.UserConfirmed += OnUserConfirmed;
+
+
         // We add a connection to the 
     }
 
