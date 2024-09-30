@@ -33,7 +33,9 @@ public class ChatHub: Hub
             Console.WriteLine("Sending message to " + connectedUser.ConnectionId);
             try
             {
-                await Clients.Client(connectedUser.ConnectionId).SendAsync("SendMessage", translatedMessage, sender);
+                // Add translation middleware here
+                // Maybe do caching?
+                await Clients.Client(connectedUser.ConnectionId).SendAsync("SendMessage", translatedMessage, sender.Username);
                 Console.WriteLine("Message sent to " + connectedUser.ConnectionId);
 
 

@@ -49,12 +49,12 @@ public class UserSetupViewModel : ReactiveObject
     {
         if (!string.IsNullOrEmpty(Username) || SelectedLanguageName != null)
         {
+            await _signalRService.StartConnectionAsync(Username, SelectedLanguageName.LanguageName);
             UserConfirmed?.Invoke(new UserSetupResult()
                 { Username = Username, Language = SelectedLanguageName.LanguageName });
             Console.WriteLine("Username is " + Username);
             Console.WriteLine("Selected language is " + SelectedLanguageName.LanguageName);
 
-            await _signalRService.StartConnectionAsync();
         }
     }
 

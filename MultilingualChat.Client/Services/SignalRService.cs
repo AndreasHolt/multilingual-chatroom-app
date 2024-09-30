@@ -17,14 +17,15 @@ public class SignalRService
         _connection = new HubConnectionBuilder().WithUrl("http://localhost:5041/chat").Build();
     }
 
-    public async Task StartConnectionAsync()
+    public async Task StartConnectionAsync(string username, string language)
     {
         try
         {
             await _connection.StartAsync();
             // TODO: Redesign to establish connection at "Confirm" button click, rather than at startup
-            await _connection.SendAsync("JoinChat", "TestUsername", "en");
-            Console.WriteLine("Connected to SignalR hub");
+            await _connection.SendAsync("JoinChat", username, language);
+            Console.WriteLine("Connected to SignalR hub, connection id is " + _connection.ConnectionId);
+            Console.WriteLine("SignalR Hub: Username and language are " + username + " " + language);
 
         }
         catch (Exception ex)

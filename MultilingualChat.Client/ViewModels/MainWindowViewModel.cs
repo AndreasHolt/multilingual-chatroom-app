@@ -50,9 +50,6 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
     {
         _signalRService = signalRService;
         userSetupViewModel.UserConfirmed += OnUserConfirmed;
-
-
-        // We add a connection to the 
     }
 
     public new event PropertyChangedEventHandler? PropertyChanged;
@@ -65,6 +62,7 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
         InputContent = "";
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(InputContent)));
 
+        Console.WriteLine("From HandleButtonClick");
         Console.WriteLine(SelectedLanguageName);
     }
 }
