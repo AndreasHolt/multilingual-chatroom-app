@@ -7,10 +7,12 @@ namespace MultilingualChat.Server.Hubs;
 public class ChatHub: Hub
 {
     private readonly IUserManager _userManager;
+    private readonly ITranslationService _translationService;
 
-    public ChatHub(IUserManager userManager)
+    public ChatHub(IUserManager userManager, ITranslationService translationService)
     {
         _userManager = userManager;
+        _translationService = translationService;
     }
     public async Task JoinChat(string username, string language)
     {
@@ -26,18 +28,23 @@ public class ChatHub: Hub
     {
         var connectedUsers = await GetAllUsers();
         var sender = await _userManager.GetUserAsync(Context.ConnectionId);
+        if (sender == null)
+        {
+            Console.WriteLine("Sender not found");
+            return;
+        }
 
         foreach (var connectedUser in connectedUsers)
         {
-            string translatedMessage = message;
             Console.WriteLine("Sending message to " + connectedUser.ConnectionId);
             try
             {
                 // Add translation middleware here
-                // Maybe do caching?
+                // Maybe do caching of messages that have already been translated, for users with the same language?
+                // Maybe let users join late, and then be presented previous messages?
+                var translatedMessage = await _translationService.TranslateAsync(message, sender.Language, connectedUser.Language);
                 await Clients.Client(connectedUser.ConnectionId).SendAsync("SendMessage", translatedMessage, sender.Username);
                 Console.WriteLine("Message sent to " + connectedUser.ConnectionId);
-
 
             }
             catch (Exception ex)

@@ -11,6 +11,21 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSignalR();
 builder.Services.AddSingleton<IUserManager, UserManager>();
+builder.Services.AddSingleton<ITranslationService, TranslationService>();
+builder.Services.AddHttpClient<ITranslationService, TranslationService>();
+
+// Configure Translation Service
+var apiKey = Environment.GetEnvironmentVariable("TRANSLATION_API_KEY");
+if (string.IsNullOrEmpty(apiKey))
+{
+    throw new ArgumentException("TRANSLATION_API_KEY environment variable is not set");
+}
+
+builder.Services.Configure<TranslationServiceOptions>(options =>
+{
+    options.ApiKey = apiKey;
+    options.ApiUrl = "https://api.groq.com/openai/v1/chat/completions";
+});
 
 var app = builder.Build();
 
@@ -18,11 +33,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        options.RoutePrefix = "swagger";
-        
-    });
+    app.UseSwaggerUI(options => { options.RoutePrefix = "swagger"; });
 }
 
 app.UseHttpsRedirection();

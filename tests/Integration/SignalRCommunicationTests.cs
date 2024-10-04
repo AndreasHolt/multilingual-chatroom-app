@@ -13,8 +13,8 @@ public class SignalRCommunicationTests
         var client1 = new SignalRService();
         var client2 = new SignalRService();
         
-        await client1.StartConnectionAsync();
-        await client2.StartConnectionAsync();
+        await client1.StartConnectionAsync("Client 1", "en");
+        await client2.StartConnectionAsync("Client 2", "en");
 
         var testMessage = "This is a test message";
         var senderName = "Client 1";
