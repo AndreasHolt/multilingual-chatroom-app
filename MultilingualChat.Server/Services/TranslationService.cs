@@ -10,12 +10,14 @@ namespace MultilingualChat.Server.Services;
 public class TranslationService : ITranslationService
 {
     private readonly HttpClient _httpClient;
+    private readonly JsonSerializerOptions _jsonOptions;
     private readonly string _apiKey;
     private readonly string _apiUrl;
 
-    public TranslationService(IOptions<TranslationServiceOptions> options, HttpClient httpClient)
+    public TranslationService(IOptions<TranslationServiceOptions> options, HttpClient httpClient, IOptions<JsonSerializerOptions> jsonOptions)
     {
         _httpClient = httpClient;
+        _jsonOptions = jsonOptions.Value;
         _apiKey = options.Value.ApiKey;
         _apiUrl = options.Value.ApiUrl;
     }
@@ -33,10 +35,10 @@ public class TranslationService : ITranslationService
                 {
                     role = "user",
                     content =
-                        $"Translate the following text from {sourceLanguage} to {targetLanguage}: {message}. Always adhere to the following guidelines: Do not give me anything but the translated text. If there is no translation, return the original text, and do not add any additional text."
+                        $" Always adhere to the following guidelines: Do not give me anything but the translated text. If there is no translation, only return the original <TranslationMessage> without the surround tags AND NOTHING ELSE! Therefore do not under any circumstances respond with any explanations like: \"The text you provided is already in X, so there is no need for translation\". Translate the following text from {sourceLanguage} to {targetLanguage} the following message: <TranslationMessage>{message}</TranslationMessage>"
                 }
             },
-            model = "mixtral-8x7b-32768"
+            model = "llama3-8b-8192"
         };
 
 
@@ -51,8 +53,9 @@ public class TranslationService : ITranslationService
         var response = _httpClient.PostAsync(_apiUrl, content).Result;
         response.EnsureSuccessStatusCode();
 
+     
         var responseBody = await response.Content.ReadAsStringAsync();
-        var result = JsonSerializer.Deserialize<TranslationResponse>(responseBody);
+        var result = JsonSerializer.Deserialize<TranslationResponse>(responseBody, _jsonOptions);
 
         if (result?.Choices == null || result.Choices.Length == 0 || result.Choices[0].Message == null)
         {
@@ -81,6 +84,5 @@ public class Choice
 
 public class Message
 {
-    public string Role { get; set; }
     public string Content { get; set; }
 }

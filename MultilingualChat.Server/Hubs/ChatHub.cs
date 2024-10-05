@@ -43,6 +43,7 @@ public class ChatHub: Hub
                 // Maybe do caching of messages that have already been translated, for users with the same language?
                 // Maybe let users join late, and then be presented previous messages?
                 var translatedMessage = await _translationService.TranslateAsync(message, sender.Language, connectedUser.Language);
+                // var translatedMessage = message;
                 await Clients.Client(connectedUser.ConnectionId).SendAsync("SendMessage", translatedMessage, sender.Username);
                 Console.WriteLine("Message sent to " + connectedUser.ConnectionId);
 
