@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using MultilingualChat.Server.Services;
 
@@ -63,7 +62,6 @@ public class ChatHub : Hub
 
         await Task.WhenAll(sendTasks);
     }
-
 
     public async Task<IEnumerable<User>> GetAllUsers()
     {

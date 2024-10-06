@@ -14,15 +14,15 @@ public class TranslationService : ITranslationService
     private readonly HttpClient _httpClient;
     private readonly JsonSerializerOptions _jsonOptions;
     private readonly LargeLanguageModelConfig _largeLanguageModelConfig;
-    
-    public TranslationService(IOptions<TranslationServiceOptions> options, HttpClient httpClient, IOptions<JsonSerializerOptions> jsonOptions, IOptions<LargeLanguageModelConfig> largeLanguageModelConfig)
+
+    public TranslationService(IOptions<TranslationServiceOptions> options, HttpClient httpClient,
+        IOptions<JsonSerializerOptions> jsonOptions, IOptions<LargeLanguageModelConfig> largeLanguageModelConfig)
     {
         _apiKey = options.Value.ApiKey;
         _apiUrl = options.Value.ApiUrl;
         _httpClient = httpClient;
         _jsonOptions = jsonOptions.Value;
         _largeLanguageModelConfig = largeLanguageModelConfig.Value;
-        
     }
 
     public async Task<string> TranslateAsync(string message, string sourceLanguage, string targetLanguage)
@@ -53,13 +53,12 @@ public class TranslationService : ITranslationService
         if (!_httpClient.DefaultRequestHeaders.Contains("Authorization"))
         {
             _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_apiKey}");
-            
         }
 
         var response = _httpClient.PostAsync(_apiUrl, content).Result;
         response.EnsureSuccessStatusCode();
 
-     
+
         var responseBody = await response.Content.ReadAsStringAsync();
         var result = JsonSerializer.Deserialize<TranslationResponse>(responseBody, _jsonOptions);
 
@@ -67,7 +66,7 @@ public class TranslationService : ITranslationService
         {
             throw new Exception("No translation found");
         }
-        
+
         return result.Choices[0].Message.Content?.Trim() ?? throw new Exception("Content is null");
     }
 }

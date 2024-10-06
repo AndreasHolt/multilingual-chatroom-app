@@ -1,6 +1,4 @@
 using System.Text.Json;
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Options;
 using MultilingualChat.Server.Hubs;
 using MultilingualChat.Server.Services;
 
@@ -15,7 +13,7 @@ builder.Services.AddSingleton<IUserManager, UserManager>();
 builder.Services.AddSingleton<ITranslationService, TranslationService>();
 builder.Services.AddHttpClient<ITranslationService, TranslationService>();
 
-// Configure Translation Service
+// Configurations
 var apiKey = Environment.GetEnvironmentVariable("TRANSLATION_API_KEY");
 if (string.IsNullOrEmpty(apiKey))
 {
@@ -28,10 +26,7 @@ builder.Services.Configure<TranslationServiceOptions>(options =>
     options.ApiUrl = "https://api.groq.com/openai/v1/chat/completions";
 });
 
-builder.Services.Configure<JsonSerializerOptions>(options =>
-{
-    options.PropertyNameCaseInsensitive = true;
-});
+builder.Services.Configure<JsonSerializerOptions>(options => { options.PropertyNameCaseInsensitive = true; });
 
 builder.Services.Configure<LargeLanguageModelConfig>(builder.Configuration.GetSection("LargeLanguageModelConfig"));
 
@@ -46,12 +41,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
 app.MapHub<ChatHub>("/chat");
 
 app.Run();
-
