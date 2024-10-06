@@ -33,6 +33,8 @@ builder.Services.Configure<JsonSerializerOptions>(options =>
     options.PropertyNameCaseInsensitive = true;
 });
 
+builder.Services.Configure<LargeLanguageModelConfig>(builder.Configuration.GetSection("LargeLanguageModelConfig"));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

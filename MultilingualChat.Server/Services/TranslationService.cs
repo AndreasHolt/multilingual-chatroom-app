@@ -9,17 +9,20 @@ namespace MultilingualChat.Server.Services;
 /// </summary>
 public class TranslationService : ITranslationService
 {
-    private readonly HttpClient _httpClient;
-    private readonly JsonSerializerOptions _jsonOptions;
     private readonly string _apiKey;
     private readonly string _apiUrl;
-
-    public TranslationService(IOptions<TranslationServiceOptions> options, HttpClient httpClient, IOptions<JsonSerializerOptions> jsonOptions)
+    private readonly HttpClient _httpClient;
+    private readonly JsonSerializerOptions _jsonOptions;
+    private readonly LargeLanguageModelConfig _largeLanguageModelConfig;
+    
+    public TranslationService(IOptions<TranslationServiceOptions> options, HttpClient httpClient, IOptions<JsonSerializerOptions> jsonOptions, IOptions<LargeLanguageModelConfig> largeLanguageModelConfig)
     {
-        _httpClient = httpClient;
-        _jsonOptions = jsonOptions.Value;
         _apiKey = options.Value.ApiKey;
         _apiUrl = options.Value.ApiUrl;
+        _httpClient = httpClient;
+        _jsonOptions = jsonOptions.Value;
+        _largeLanguageModelConfig = largeLanguageModelConfig.Value;
+        
     }
 
     public async Task<string> TranslateAsync(string message, string sourceLanguage, string targetLanguage)
@@ -35,10 +38,13 @@ public class TranslationService : ITranslationService
                 {
                     role = "user",
                     content =
-                        $" Always adhere to the following guidelines: Do not give me anything but the translated text. If there is no translation, only return the original <TranslationMessage> without the surround tags AND NOTHING ELSE! Therefore do not under any circumstances respond with any explanations like: \"The text you provided is already in X, so there is no need for translation\". Translate the following text from {sourceLanguage} to {targetLanguage} the following message: <TranslationMessage>{message}</TranslationMessage>"
+                        $"Always adhere to the following guidelines: " +
+                        $"<Guidelines>Do not give me anything but the translated text. If there is no translation, only return the original \"<TranslationMessage>\" without the surround tags AND NOTHING ELSE! Therefore do not under any circumstances respond with any explanations like: \"The text you provided is already in X, so there is no need for translation\".</Guidelines> " +
+                        $"Translate the following text from {sourceLanguage} to {targetLanguage} the following message: " +
+                        $"<TranslationMessage>{message}</TranslationMessage>"
                 }
             },
-            model = "llama3-8b-8192"
+            model = _largeLanguageModelConfig.Models["Llama 3 8b"]
         };
 
 
