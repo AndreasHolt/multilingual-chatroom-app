@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,13 +10,30 @@ using ReactiveUI;
 
 namespace MultilingualChat.Client.ViewModels;
 
-public class UserSetupViewModel : ReactiveObject
+public class UserSetupViewModel : ReactiveObject, INotifyPropertyChanged
 {
+    public new event PropertyChangedEventHandler? PropertyChanged;
+    private bool _isJoiningRoom;
+
+    public bool IsJoiningRoom
+    {
+        get => _isJoiningRoom;
+        set
+        {
+            _isJoiningRoom = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsJoiningRoom)));
+        }
+    }
+
+    public string RoomId { get; set; }
+
+
     private readonly SignalRService _signalRService;
+
     public UserSetupViewModel(SignalRService signalRService)
     {
         _signalRService = signalRService;
-        
+
         LanguageList = new ObservableCollection<Language>(
             CultureInfo.GetCultures(CultureTypes.NeutralCultures)
                 .Where(c => c.Name != "")
@@ -54,7 +72,6 @@ public class UserSetupViewModel : ReactiveObject
                 { Username = Username, Language = SelectedLanguageName.LanguageName });
             Console.WriteLine("Username is " + Username);
             Console.WriteLine("Selected language is " + SelectedLanguageName.LanguageName);
-
         }
     }
 
