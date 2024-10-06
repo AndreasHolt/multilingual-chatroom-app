@@ -44,7 +44,7 @@ public class TranslationService : ITranslationService
                         $"<TranslationMessage>{message}</TranslationMessage>"
                 }
             },
-            model = _largeLanguageModelConfig.Models["Llama 3 8b"]
+            model = _largeLanguageModelConfig.Models[LargeLanguageModelName.Llama3_8b]
         };
 
 
