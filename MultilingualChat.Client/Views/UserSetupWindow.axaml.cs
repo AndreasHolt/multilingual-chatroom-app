@@ -17,7 +17,13 @@ public partial class UserSetupWindow : Window
 
     private void ConfirmButton_Click(object sender, RoutedEventArgs e)
     {
-        Console.WriteLine("Test");
+        // If the user is joining a room, they must enter a room id
+        if (JoinRoomRadioButton.IsChecked == true && string.IsNullOrEmpty(RoomIdInput.Text))
+        {
+            return;
+        }
+            
+        // User must enter a username and a language
         if (!string.IsNullOrEmpty(UsernameInput.Text) && LanguageComboBox.SelectedItem != null)
         {
             Close(true);

@@ -42,7 +42,7 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
 
             Console.WriteLine("ON MESSAGE");
             Console.WriteLine(message);
-            _connection.SendAsync("GetAllUsers");
+            _connection.SendAsync("GetUsersInRoom");
         });
     }
 

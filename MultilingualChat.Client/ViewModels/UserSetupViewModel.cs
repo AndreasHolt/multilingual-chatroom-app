@@ -65,9 +65,20 @@ public class UserSetupViewModel : ReactiveObject, INotifyPropertyChanged
 
     public async Task ConfirmCommand()
     {
+        if (_isJoiningRoom && string.IsNullOrEmpty(RoomId)) // If user is joining a room, they must enter a room id
+        {
+            Console.WriteLine("we are in");
+            return;
+        }
+
         if (!string.IsNullOrEmpty(Username) || SelectedLanguageName != null)
         {
-            await _signalRService.StartConnectionAsync(Username, SelectedLanguageName.LanguageName);
+            if (!_isJoiningRoom)
+            {
+                RoomId = Guid.NewGuid().ToString();
+            }
+
+            await _signalRService.StartConnectionAsync(Username, SelectedLanguageName.LanguageName, RoomId);
             UserConfirmed?.Invoke(new UserSetupResult()
                 { Username = Username, Language = SelectedLanguageName.LanguageName });
             Console.WriteLine("Username is " + Username);
@@ -79,7 +90,8 @@ public class UserSetupViewModel : ReactiveObject, INotifyPropertyChanged
 
     public UserSetupResult StartChat()
     {
-        return new UserSetupResult() { Username = Username, Language = SelectedLanguageName.LanguageName };
+        return new UserSetupResult()
+            { Username = Username, Language = SelectedLanguageName.LanguageName, RoomId = RoomId };
     }
 }
 
@@ -87,6 +99,7 @@ public class UserSetupResult
 {
     public string Username { get; set; }
     public string Language { get; set; }
+    public string RoomId { get; set; }
 }
 
 public class LanguageComparer : IEqualityComparer<Language>

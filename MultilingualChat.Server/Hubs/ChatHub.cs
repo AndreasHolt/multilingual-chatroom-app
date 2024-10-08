@@ -14,12 +14,12 @@ public class ChatHub : Hub
         _translationService = translationService;
     }
 
-    public async Task JoinChat(string username, string language)
+    public async Task JoinChat(string username, string language, string roomId)
     {
         Console.WriteLine("Joining chat JoinChat");
         var contextConnectionId = Context.ConnectionId;
         Console.WriteLine("Context connection id is " + contextConnectionId);
-        await _userManager.AddUserAsync(contextConnectionId, username, language);
+        await _userManager.AddUserAsync(contextConnectionId, username, language, roomId);
     }
 
     // SendMessage can be called by a connected client to send a message to all other clients.
@@ -32,7 +32,7 @@ public class ChatHub : Hub
         var sender = await _userManager.GetUserAsync(Context.ConnectionId);
         if (sender == null) return;
 
-        var connectedUsers = await GetAllUsers();
+        var connectedUsers = await GetUsersInRoom(sender.RoomId);
         var connectedUsersList = connectedUsers.ToList();
         var translationTasks = new Dictionary<string, Task<string>>();
 
@@ -61,6 +61,13 @@ public class ChatHub : Hub
             });
 
         await Task.WhenAll(sendTasks);
+    }
+
+    private async Task<IEnumerable<User>> GetUsersInRoom(string roomId)
+    {
+        var users = await _userManager.GetAllUsersInRoomAsync(roomId);
+
+        return users;
     }
 
     public async Task<IEnumerable<User>> GetAllUsers()
