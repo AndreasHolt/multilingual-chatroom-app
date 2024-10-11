@@ -25,18 +25,16 @@
             </ExperimentalAcrylicBorder.Material>
         </ExperimentalAcrylicBorder>
         
-        <Grid RowDefinitions="Auto,*,Auto" Margin="20">
-            <!-- Language selection -->
-            <!-- <ComboBox Grid.Row="0" ItemsSource="{Binding LanguageList}" SelectedValue="{Binding SelectedLanguageName}" SelectedIndex="0" Width="200" MaxDropDownHeight="300" Margin="0 0 0 10"> -->
-            <!--     <ComboBox.ItemTemplate> -->
-            <!--         <DataTemplate> -->
-            <!--             <TextBlock Text="{Binding LanguageName}"/> -->
-            <!--         </DataTemplate> -->
-            <!--     </ComboBox.ItemTemplate> -->
-            <!-- </ComboBox> -->
+        <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="*,Auto" Margin="20">
+            <!-- Room ID display -->
+            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,10">
+                <TextBlock Text="{Binding RoomId}" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                <Button Command="{Binding CopyRoomIdToClipboard}" ToolTip.Tip="Copy Room ID to Clipboard">
+                    <PathIcon Data="{StaticResource copy_icon}"/>
+                </Button>
+            </StackPanel>
 
-            
-            <ScrollViewer Grid.Row="1" Margin="0 0 0 10">
+            <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2" Margin="0 0 0 10">
                 <ItemsControl ItemsSource="{Binding ChatMessages}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -64,7 +62,7 @@
             </ScrollViewer>
             
             <!-- Input area -->
-            <Grid Grid.Row="2" ColumnDefinitions="*,Auto">
+            <Grid Grid.Row="2" Grid.ColumnSpan="2" ColumnDefinitions="*,Auto">
                 <TextBox Grid.Column="0" Watermark="Enter a chat message" Text="{Binding InputContent}" Margin="0 0 10 0"/>
                 <Button Grid.Column="1" Command="{Binding HandleButtonClick}">
                     <PathIcon Data="{StaticResource send_message}"/>

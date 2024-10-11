@@ -15,6 +15,7 @@ public class UserSetupViewModel : ReactiveObject, INotifyPropertyChanged
     public new event PropertyChangedEventHandler? PropertyChanged;
     private bool _isJoiningRoom;
 
+
     public bool IsJoiningRoom
     {
         get => _isJoiningRoom;
@@ -67,7 +68,6 @@ public class UserSetupViewModel : ReactiveObject, INotifyPropertyChanged
     {
         if (_isJoiningRoom && string.IsNullOrEmpty(RoomId)) // If user is joining a room, they must enter a room id
         {
-            Console.WriteLine("we are in");
             return;
         }
 
@@ -79,6 +79,7 @@ public class UserSetupViewModel : ReactiveObject, INotifyPropertyChanged
             }
 
             await _signalRService.StartConnectionAsync(Username, SelectedLanguageName.LanguageName, RoomId);
+
             UserConfirmed?.Invoke(new UserSetupResult()
                 { Username = Username, Language = SelectedLanguageName.LanguageName });
             Console.WriteLine("Username is " + Username);

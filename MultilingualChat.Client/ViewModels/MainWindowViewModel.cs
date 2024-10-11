@@ -15,16 +15,25 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
     public string Username { get; set; }
     public string SelectedLanguageName { get; set; }
 
+    public string RoomId { get; set; }
+
     public ObservableCollection<Language> LanguageList { get; set; }
 
     public ObservableCollection<Message> ChatMessages { get; set; } = new ObservableCollection<Message>();
 
+    public void CopyRoomIdToClipboard()
+    {
+        throw new NotImplementedException();
+    }
+
     public void OnUserConfirmed(UserSetupResult result)
     {
+        _connection = _signalRService.GetConnection();
+
         Username = result.Username;
         SelectedLanguageName = result.Language;
+        RoomId = _signalRService.GetRoomId();
 
-        _connection = _signalRService.GetConnection();
         Console.WriteLine("CLIENT: Connection created to id " + _connection.ConnectionId);
 
         _connection.On<string, string>("SendMessage", (message, sender) =>

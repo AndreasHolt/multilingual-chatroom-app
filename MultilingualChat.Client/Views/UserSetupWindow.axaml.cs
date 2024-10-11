@@ -10,6 +10,7 @@ namespace MultilingualChat.Client.Views;
 public partial class UserSetupWindow : Window
 {
     private UserSetupViewModel _view;
+
     public UserSetupWindow()
     {
         InitializeComponent();
@@ -22,14 +23,12 @@ public partial class UserSetupWindow : Window
         {
             return;
         }
-            
+
         // User must enter a username and a language
         if (!string.IsNullOrEmpty(UsernameInput.Text) && LanguageComboBox.SelectedItem != null)
         {
             Close(true);
-            
         }
-        
     }
 
     public void CloseWithResult(UserSetupResult result)

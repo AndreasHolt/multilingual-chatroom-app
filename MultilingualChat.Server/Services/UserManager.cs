@@ -27,9 +27,8 @@ public class UserManager : IUserManager
     public Task<IEnumerable<User>> GetAllUsersInRoomAsync(string roomId)
     {
         var usersInRoom = _users.Values.Where(u => u.RoomId == roomId).ToList();
-        // var users = _users.Values.ToList();
-        Console.WriteLine("Users in user manager");
-        Console.WriteLine(usersInRoom.Count);
+        Console.WriteLine("Users in room " + roomId);
+        Console.WriteLine("With usernames " + usersInRoom.Select(u => u.Username));
         foreach (var user in usersInRoom)
         {
             Console.WriteLine(

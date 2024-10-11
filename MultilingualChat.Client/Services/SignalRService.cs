@@ -11,6 +11,7 @@ namespace MultilingualChat.Client.Services;
 public class SignalRService
 {
     private HubConnection _connection;
+    private string _roomId;
 
     public SignalRService()
     {
@@ -24,6 +25,7 @@ public class SignalRService
             await _connection.StartAsync();
             // TODO: Redesign to establish connection at "Confirm" button click, rather than at startup
             await _connection.SendAsync("JoinChat", username, language, roomId);
+            _roomId = roomId;
             Console.WriteLine("Connected to SignalR hub, connection id is " + _connection.ConnectionId);
             Console.WriteLine("SignalR Hub: Username and language are " + username + " " + language);
             Console.WriteLine("SignalR Hub: Room id is " + roomId);
@@ -46,5 +48,9 @@ public class SignalRService
         return _connection;
     }
 
+    public string GetRoomId()
+    {
+        return _roomId;
+    }
 
 }
