@@ -25,7 +25,7 @@ public partial class UserSetupWindow : Window
         }
 
         // User must enter a username and a language
-        if (!string.IsNullOrEmpty(UsernameInput.Text) && LanguageComboBox.SelectedItem != null)
+        if (!string.IsNullOrEmpty(UsernameInput.Text) && LanguageAutoCompleteBox.SelectedItem != null)
         {
             Close(true);
         }

@@ -18,21 +18,27 @@
 
     <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,*" ColumnDefinitions="*,Auto,*" Margin="20">
         <!-- Language selection -->
-        <ComboBox Grid.Row="0" Grid.Column="1" 
-                  Name="LanguageComboBox"
-                  ItemsSource="{Binding LanguageList}" 
-                  SelectedValue="{Binding SelectedLanguageName}" 
-                  SelectedIndex="0" 
-                  Width="200" 
-                  MaxDropDownHeight="300" 
-                  HorizontalAlignment="Center" 
-                  Margin="0 0 0 10">
-            <ComboBox.ItemTemplate>
+        <AutoCompleteBox Grid.Row="0" Grid.Column="1" 
+                         Name="LanguageAutoCompleteBox"
+                         ItemsSource="{Binding LanguageList}" 
+                         SelectedItem="{Binding SelectedLanguageName}"
+                         Text="{Binding SelectedLanguage}"
+                         FilterMode="Contains"
+                         Width="200" 
+                         MaxDropDownHeight="300" 
+                         HorizontalAlignment="Center" 
+                         Margin="0 0 0 10"
+                         Watermark="Search language">
+            <AutoCompleteBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding LanguageName}"/>
+                    <TextBlock Text="{Binding .}"/>
                 </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
+            </AutoCompleteBox.ItemTemplate>
+        </AutoCompleteBox>
+
+        
+        
+        
 
         <!-- Username input -->
         <TextBox Grid.Row="1" Grid.Column="1" 

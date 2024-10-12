@@ -42,6 +42,7 @@ public class UserSetupViewModel : ReactiveObject, INotifyPropertyChanged
                 .Select(c => new Language(c.EnglishName))
                 .Distinct(new LanguageComparer())
         );
+
     }
 
     private string _username;
