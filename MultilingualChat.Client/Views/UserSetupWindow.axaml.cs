@@ -3,11 +3,12 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Classic.Avalonia.Theme;
 using MultilingualChat.Client.ViewModels;
 
 namespace MultilingualChat.Client.Views;
 
-public partial class UserSetupWindow : Window
+public partial class UserSetupWindow : ClassicWindow
 {
     private UserSetupViewModel _view;
 
