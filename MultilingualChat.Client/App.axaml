@@ -12,6 +12,7 @@
     <Application.Styles>
         <!-- <FluentTheme /> -->
         <ClassicTheme />
+        <StyleInclude Source="avares://Classic.Avalonia.Theme.ColorPicker/Classic.axaml"/>
         <StyleInclude Source="Icons.axaml"></StyleInclude>
     </Application.Styles>
 </Application>
