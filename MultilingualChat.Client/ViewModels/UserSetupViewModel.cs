@@ -27,9 +27,7 @@ public class UserSetupViewModel : ReactiveObject, INotifyPropertyChanged
     }
 
     public string RoomId { get; set; }
-
     public string UserColor { get; set; }
-
 
     private readonly SignalRService _signalRService;
 
@@ -80,11 +78,11 @@ public class UserSetupViewModel : ReactiveObject, INotifyPropertyChanged
             {
                 RoomId = Guid.NewGuid().ToString();
             }
-
-            await _signalRService.StartConnectionAsync(Username, SelectedLanguageName.LanguageName, RoomId);
+            
+            await _signalRService.StartConnectionAsync(Username, SelectedLanguageName.LanguageName, RoomId, UserColor);
 
             UserConfirmed?.Invoke(new UserSetupResult()
-                { Username = Username, Language = SelectedLanguageName.LanguageName });
+                { Username = Username, Language = SelectedLanguageName.LanguageName, RoomId = RoomId, UserColor = UserColor});
             Console.WriteLine("Username is " + Username);
             Console.WriteLine("Selected language is " + SelectedLanguageName.LanguageName);
         }
@@ -95,7 +93,7 @@ public class UserSetupViewModel : ReactiveObject, INotifyPropertyChanged
     public UserSetupResult StartChat()
     {
         return new UserSetupResult()
-            { Username = Username, Language = SelectedLanguageName.LanguageName, RoomId = RoomId };
+            { Username = Username, Language = SelectedLanguageName.LanguageName, RoomId = RoomId, UserColor = UserColor};
     }
 }
 
@@ -104,6 +102,8 @@ public class UserSetupResult
     public string Username { get; set; }
     public string Language { get; set; }
     public string RoomId { get; set; }
+    public string UserColor { get; set; }
+    
 }
 
 public class LanguageComparer : IEqualityComparer<Language>

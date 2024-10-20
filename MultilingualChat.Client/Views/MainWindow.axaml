@@ -38,14 +38,18 @@
                 <ItemsControl ItemsSource="{Binding ChatMessages}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Background="#30FFFFFF" CornerRadius="5" Padding="10" Margin="0 5">
+                                 <ClassicBorderDecorator Background="Beige"
+                                                                                BorderStyle="Sunken"
+                                                                                BorderThickness="2"
+                                                                                Margin="5,10,5,10"
+                                                >
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <StackPanel Grid.Column="0">
-                                        <TextBlock Text="{Binding MessageSender}" FontWeight="Bold"/>
+                                        <TextBlock Foreground="{Binding MessageSenderColor}" Text="{Binding MessageSender}" FontWeight="Bold"/>
                                         <TextBlock Text="{Binding MessageText}" TextWrapping="Wrap"/>
                                     </StackPanel>
                                     <TextBlock Grid.Column="1" 
@@ -55,7 +59,7 @@
                                                Margin="10 0 0 0"
                                                Foreground="#80000000"/>
                                 </Grid>
-                            </Border>
+                            </ClassicBorderDecorator>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

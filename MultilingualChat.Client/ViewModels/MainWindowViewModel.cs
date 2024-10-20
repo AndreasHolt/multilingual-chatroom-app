@@ -13,6 +13,7 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
     private HubConnection _connection;
     public string InputContent { get; set; }
     public string Username { get; set; }
+    
     public string SelectedLanguageName { get; set; }
 
     public string RoomId { get; set; }
@@ -45,6 +46,7 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
                 {
                     MessageText = message,
                     MessageSender = sender,
+                    MessageSenderColor = result.UserColor,
                     MessageTimestamp = DateTime.Now
                 });
             }
@@ -59,6 +61,7 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
     {
         _signalRService = signalRService;
         userSetupViewModel.UserConfirmed += OnUserConfirmed;
+        Console.WriteLine("Hi");
     }
 
     public new event PropertyChangedEventHandler? PropertyChanged;

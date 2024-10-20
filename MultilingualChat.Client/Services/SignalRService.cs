@@ -18,7 +18,7 @@ public class SignalRService
         _connection = new HubConnectionBuilder().WithUrl("http://localhost:5041/chat").Build();
     }
 
-    public async Task StartConnectionAsync(string username, string language, string roomId)
+    public async Task StartConnectionAsync(string username, string language, string roomId, string chatColor)
     {
         try
         {
