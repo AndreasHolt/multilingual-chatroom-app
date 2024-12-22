@@ -5,10 +5,11 @@
         xmlns:viewModels="clr-namespace:MultilingualChat.Client.ViewModels"
         Topmost="True"
         mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="400"
-        Width="300" Height="400"
+        Width="300" Height="300"
         x:Class="MultilingualChat.Client.Views.UserSetupWindow"
         x:DataType="viewModels:UserSetupViewModel"
-        Title="UserSetupWindow"
+        Icon="/Assets/program_options.png"
+        Title="Join or Create a Chat Room"
         TransparencyLevelHint="AcrylicBlur"
         Background="Transparent"
         CanResize="False"
@@ -42,9 +43,12 @@
                      Text="{Binding Username}" />
 
             <ColorPicker Grid.Column="1"
+                         
+                         
+                         
                          Name="UserColorPicker"
                          Width="40"
-                         Height="30"
+                         Height="23"
                          VerticalAlignment="Center"
                          Margin="0 10 0 10"
                          Color="{Binding UserColor}" />
@@ -66,11 +70,14 @@
 
         <TextBox Grid.Row="4"
                  Name="RoomIdInput"
-                 HorizontalAlignment="Center"
-                 Margin="0 5 0 10"
+                 HorizontalAlignment="Stretch"
+                 Margin="0 5 0 10" 
+                 Height="23"
+
                  Watermark="Enter room ID"
                  Text="{Binding RoomId}"
                  IsEnabled="{Binding IsJoiningRoom}" />
+        
 
         <RadioButton Grid.Row="5"
                      Content="Create new room"

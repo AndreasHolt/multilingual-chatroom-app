@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Microsoft.AspNetCore.SignalR.Client;
 using System.ComponentModel;
+using Avalonia;
 using MultilingualChat.Client.Services;
+using Avalonia.Controls.ApplicationLifetimes;
 
 namespace MultilingualChat.Client.ViewModels;
 
@@ -21,10 +22,20 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
     public ObservableCollection<Language> LanguageList { get; set; }
 
     public ObservableCollection<Message> ChatMessages { get; set; } = new ObservableCollection<Message>();
-
-    public void CopyRoomIdToClipboard()
+    public async void CopyRoomIdToClipboard()
     {
-        throw new NotImplementedException();
+        if (string.IsNullOrEmpty(RoomId))
+        {
+            // Optionally handle the case where RoomId is null or empty.
+            return;
+        
+        }
+
+        if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
+        {
+            var clipboard = desktopLifetime.MainWindow.Clipboard;
+            await clipboard.SetTextAsync(RoomId);
+        }
     }
 
     public void OnUserConfirmed(UserSetupResult result)
@@ -57,6 +68,7 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
     {
         _signalRService = signalRService;
         userSetupViewModel.UserConfirmed += OnUserConfirmed;
+
     }
 
     public new event PropertyChangedEventHandler? PropertyChanged;

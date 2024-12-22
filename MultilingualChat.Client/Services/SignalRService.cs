@@ -34,12 +34,14 @@ public class SignalRService
         catch (Exception ex)
         {
             Console.WriteLine($"Failed connecting to SignalR hub: {ex.Message}");
+            Console.WriteLine("Stopping connection");
+            await StopConnectionAsync();
         }
     }
 
     public async Task StopConnectionAsync()
     {
-        Console.WriteLine("STOPPING!");
+        Console.WriteLine("Stopping connection!");
         await _connection.StopAsync();
     }
 

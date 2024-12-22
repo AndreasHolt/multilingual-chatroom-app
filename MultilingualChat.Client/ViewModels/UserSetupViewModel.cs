@@ -27,7 +27,7 @@ public class UserSetupViewModel : ReactiveObject, INotifyPropertyChanged
     }
 
     public string RoomId { get; set; }
-    public string UserColor { get; set; }
+    public string UserColor { get; set; } 
 
     private readonly SignalRService _signalRService;
 
