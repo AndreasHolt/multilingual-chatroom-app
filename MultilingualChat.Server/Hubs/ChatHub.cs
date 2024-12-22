@@ -14,20 +14,17 @@ public class ChatHub : Hub
         _translationService = translationService;
     }
 
-    public async Task JoinChat(string username, string language, string roomId)
+    public async Task JoinChat(string username, string language, string roomId, string color)
     {
-        Console.WriteLine("Joining chat JoinChat");
         var contextConnectionId = Context.ConnectionId;
-        Console.WriteLine("Context connection id is " + contextConnectionId);
-        await _userManager.AddUserAsync(contextConnectionId, username, language, roomId);
+        await _userManager.AddUserAsync(contextConnectionId, username, language, roomId, color);
     }
 
     // SendMessage can be called by a connected client to send a message to all other clients.
     // 1. The client connects to endpoint (/chat).
     // 2. They can then invoke the exposed function SendMessage at that endpoint, which then sends the message to all other endpoints
-    public async Task SendMessage(string message, string user)
+    public async Task SendMessage(string message)
     {
-        // TODO: Add caching of messages that have already been translated, for users with the same language
         // TODO: Maybe let users join late, and then be presented previous messages
         var sender = await _userManager.GetUserAsync(Context.ConnectionId);
         if (sender == null) return;
@@ -56,8 +53,7 @@ public class ChatHub : Hub
                     : await translationTasks[connectedUser.Language];
 
                 await Clients.Client(connectedUser.ConnectionId)
-                    .SendAsync("SendMessage", translatedMessage, sender.Username);
-                Console.WriteLine("Message sent to " + connectedUser.ConnectionId);
+                    .SendAsync("SendMessage", translatedMessage, sender.Username, sender.Color);
             });
 
         await Task.WhenAll(sendTasks);

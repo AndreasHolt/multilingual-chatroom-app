@@ -5,21 +5,22 @@ namespace MultilingualChat.Server.Services;
 /// <summary>
 ///     Manages connected users
 /// </summary>
-public class User(string username, string language, string connectionId, string roomId)
+public class User(string username, string language, string connectionId, string roomId, string color)
 {
     public string Username { get; set; } = username;
     public string Language { get; set; } = language;
     public string ConnectionId { get; set; } = connectionId;
     public string RoomId { get; set; } = roomId;
+    public string Color { get; set; } = color;
 }
 
 public class UserManager : IUserManager
 {
     private readonly ConcurrentDictionary<string, User> _users = new();
 
-    public Task AddUserAsync(string connectionId, string username, string language, string roomId)
+    public Task AddUserAsync(string connectionId, string username, string language, string roomId, string color)
     {
-        _users[connectionId] = new User(username, language, connectionId, roomId);
+        _users[connectionId] = new User(username, language, connectionId, roomId, color);
         return Task.CompletedTask;
     }
 
@@ -67,7 +68,7 @@ public class UserManager : IUserManager
 
 public interface IUserManager
 {
-    Task AddUserAsync(string connectionId, string username, string language, string roomId);
+    Task AddUserAsync(string connectionId, string username, string language, string roomId, string color);
 
     Task<IEnumerable<User>> GetAllUsersAsync();
     

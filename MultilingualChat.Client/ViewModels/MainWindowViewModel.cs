@@ -35,24 +35,20 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
         SelectedLanguageName = result.Language;
         RoomId = _signalRService.GetRoomId();
 
-        Console.WriteLine("CLIENT: Connection created to id " + _connection.ConnectionId);
 
-        _connection.On<string, string>("SendMessage", (message, sender) =>
+        _connection.On<string, string, string>("SendMessage", (message, sender, color) =>
         {
-            Console.WriteLine("MESSAGE RECEIVED ON CLIENT SIDE");
             if (message != "" && message != null)
             {
                 ChatMessages.Add(new Message
                 {
                     MessageText = message,
                     MessageSender = sender,
-                    MessageSenderColor = result.UserColor,
+                    MessageSenderColor = color,
                     MessageTimestamp = DateTime.Now
                 });
             }
 
-            Console.WriteLine("ON MESSAGE");
-            Console.WriteLine(message);
             _connection.SendAsync("GetUsersInRoom");
         });
     }
@@ -61,7 +57,6 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
     {
         _signalRService = signalRService;
         userSetupViewModel.UserConfirmed += OnUserConfirmed;
-        Console.WriteLine("Hi");
     }
 
     public new event PropertyChangedEventHandler? PropertyChanged;
@@ -70,11 +65,8 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
     public async void HandleButtonClick()
     {
         var connection = _signalRService.GetConnection();
-        await connection.InvokeAsync("SendMessage", InputContent, Username);
+        await connection.InvokeAsync("SendMessage", InputContent);
         InputContent = "";
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(InputContent)));
-
-        Console.WriteLine("From HandleButtonClick");
-        Console.WriteLine(SelectedLanguageName);
     }
 }
