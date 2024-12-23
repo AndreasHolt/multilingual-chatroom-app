@@ -3,16 +3,16 @@
         xmlns:vm="using:MultilingualChat.Client.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MultilingualChat.Client.Converters"
+
         xmlns:views="clr-namespace:MultilingualChat.Client.Views"
         mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
-        
+
         Width="400" Height="500"
         x:Class="MultilingualChat.Client.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/program_icon.png"
         Title="Multilingual Chat"
-        TransparencyLevelHint="AcrylicBlur"
-        Background="Transparent"
         ExtendClientAreaToDecorationsHint="True"
         WindowStartupLocation="CenterScreen">
 
@@ -28,51 +28,81 @@
         </ExperimentalAcrylicBorder>
 
         <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="*,Auto" Margin="10">
-            <Button Grid.Column="1" Command="{Binding CopyRoomIdToClipboard}" 
+            <Button Grid.Column="1" Command="{Binding CopyRoomIdToClipboard}"
                     ToolTip.Tip="Copy Room ID to Clipboard"
                     HorizontalAlignment="Right"
                     Padding="4">
                 <StackPanel Orientation="Horizontal" Spacing="3">
                     <!-- <PathIcon Foreground="#575757" Data="{StaticResource copy_icon}" Width="12" Height="12" /> -->
-                    
-                    <Image Source="/Assets/clipboard.png" Width="16" Height="16"/>
-                    
+
+                    <Image Source="/Assets/clipboard.png" Width="16" Height="16" />
+
                     <TextBlock Text="Copy Room ID" VerticalAlignment="Center" FontSize="12" />
                 </StackPanel>
             </Button>
-            
 
 
-            <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2" Margin="0 0 0 10">
+            <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2" Margin="0 20 0 10">
                 <ItemsControl ItemsSource="{Binding ChatMessages}">
+                    <ItemsControl.Resources>
+                        <local:StringEqualsConverter x:Key="StringEquals" />
+                        <local:StringNotEqualsConverter x:Key="StringNotEquals" />
+                    </ItemsControl.Resources>
+
+                    <ItemsControl.Styles>
+                        <Style Selector="Grid.systemMessage">
+                            <Setter Property="Margin" Value="5,5,5,5" />
+                        </Style>
+                        <Style Selector="Grid.chatMessage">
+                            <Setter Property="Margin" Value="5,10,5,10" />
+                        </Style>
+                    </ItemsControl.Styles>
+
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <ClassicBorderDecorator Background="Beige"
-                                                    BorderStyle="Sunken"
-                                                    BorderThickness="2"
-                                                    Margin="5,10,5,10">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <StackPanel Grid.Column="0">
-                                        <TextBlock Foreground="{Binding MessageSenderColor}"
-                                                   Text="{Binding MessageSender}" FontWeight="Bold" />
-                                        <TextBlock Text="{Binding MessageText}" TextWrapping="Wrap" />
-                                    </StackPanel>
-                                    <TextBlock Grid.Column="1"
-                                               Text="{Binding MessageTimestamp}"
-                                               VerticalAlignment="Top"
-                                               HorizontalAlignment="Right"
-                                               Margin="10 0 0 0"
-                                               Foreground="#80000000" />
-                                </Grid>
-                            </ClassicBorderDecorator>
+                            <Grid
+                                Classes.systemMessage="{Binding MessageSender, Converter={StaticResource StringEquals}, ConverterParameter=System}"
+                                Classes.chatMessage="{Binding MessageSender, Converter={StaticResource StringNotEquals}, ConverterParameter=System}">
+
+                                <!-- System Message Template -->
+                                <TextBlock Text="{Binding MessageText}"
+                                           IsVisible="{Binding MessageSender, Converter={StaticResource StringEquals}, ConverterParameter=System}"
+                                           Foreground="Gray"
+                                           FontStyle="Italic"
+                                           HorizontalAlignment="Center"
+                                           TextWrapping="Wrap" />
+
+                                <!-- Chat Message Template -->
+                                <ClassicBorderDecorator Background="Beige"
+                                                        BorderStyle="Sunken"
+                                                        BorderThickness="2"
+                                                        IsVisible="{Binding MessageSender, Converter={StaticResource StringNotEquals}, ConverterParameter=System}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Foreground="{Binding MessageSenderColor}"
+                                                       Text="{Binding MessageSender}"
+                                                       FontWeight="Bold" />
+                                            <TextBlock Text="{Binding MessageText}"
+                                                       TextWrapping="Wrap" />
+                                        </StackPanel>
+                                        <TextBlock Grid.Column="1"
+                                                   Text="{Binding MessageTimestamp}"
+                                                   VerticalAlignment="Top"
+                                                   HorizontalAlignment="Right"
+                                                   Margin="10 0 0 0"
+                                                   Foreground="#80000000" />
+                                    </Grid>
+                                </ClassicBorderDecorator>
+                            </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </ScrollViewer>
+
 
             <!-- Input area -->
             <Grid Grid.Row="2" Grid.ColumnSpan="2" ColumnDefinitions="*,Auto">
@@ -80,11 +110,11 @@
                          Margin="0 0 10 0" />
                 <Button Grid.Column="1" Command="{Binding HandleButtonClick}">
                     <StackPanel Orientation="Horizontal" Spacing="5">
-                        <Image Source="/Assets/send_icon.png" Width="18" Height="18"/>
+                        <Image Source="/Assets/send_icon.png" Width="18" Height="18" />
                         <TextBlock Text="Send Message" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
-                
+
             </Grid>
         </Grid>
     </Panel>

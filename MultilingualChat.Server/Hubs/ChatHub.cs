@@ -18,6 +18,33 @@ public class ChatHub : Hub
     {
         var contextConnectionId = Context.ConnectionId;
         await _userManager.AddUserAsync(contextConnectionId, username, language, roomId, color);
+        
+        var connectedUsers = await GetUsersInRoom(roomId);
+        var translationTasks = new Dictionary<string, Task<string>>();
+        var joinPhrase = "joined the chatroom";
+
+        foreach (var user in connectedUsers.Where(u => u.Language != "en"))
+        {
+            if (!translationTasks.ContainsKey(user.Language))
+            {
+                translationTasks[user.Language] = 
+                    _translationService.TranslateAsync(joinPhrase, "en", user.Language);
+            }
+        }
+
+        await Task.WhenAll(translationTasks.Values);
+
+        foreach (var user in connectedUsers)
+        {
+            var translatedPhrase = user.Language == "English" 
+                ? joinPhrase 
+                : await translationTasks[user.Language];
+
+            var fullMessage = $"{username} {translatedPhrase}"; 
+
+            await Clients.Client(user.ConnectionId)
+                .SendAsync("SendMessage", fullMessage, "System", "Gray");
+        }
     }
 
     // SendMessage can be called by a connected client to send a message to all other clients.

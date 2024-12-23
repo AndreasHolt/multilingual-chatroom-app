@@ -14,6 +14,7 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
     private HubConnection _connection;
     public string InputContent { get; set; }
     public string Username { get; set; }
+    public string Color { get; set; }
     
     public string SelectedLanguageName { get; set; }
 
@@ -43,6 +44,7 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
         _connection = _signalRService.GetConnection();
 
         Username = result.Username;
+        Color = result.UserColor;
         SelectedLanguageName = result.Language;
         RoomId = _signalRService.GetRoomId();
 

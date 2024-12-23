@@ -38,7 +38,7 @@ public partial class App : Application
             // Set up mainWindow which should appear after dialogue
             var mainWindow = new MainWindow
             {
-                DataContext = vm
+                DataContext = vm,
             };
             desktop.MainWindow = mainWindow;
             mainWindow.Show();
