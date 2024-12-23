@@ -5,6 +5,7 @@ using System.ComponentModel;
 using Avalonia;
 using MultilingualChat.Client.Services;
 using Avalonia.Controls.ApplicationLifetimes;
+using MultilingualChat.Client.Models;
 
 namespace MultilingualChat.Client.ViewModels;
 
@@ -15,7 +16,7 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
     public string InputContent { get; set; }
     public string Username { get; set; }
     public string Color { get; set; }
-    
+
     public string SelectedLanguageName { get; set; }
 
     public string RoomId { get; set; }
@@ -23,13 +24,19 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
     public ObservableCollection<Language> LanguageList { get; set; }
 
     public ObservableCollection<Message> ChatMessages { get; set; } = new ObservableCollection<Message>();
+
+    public MainWindowViewModel(SignalRService signalRService, UserSetupViewModel userSetupViewModel)
+    {
+        _signalRService = signalRService;
+        userSetupViewModel.UserConfirmed += OnUserConfirmed;
+    }
+
     public async void CopyRoomIdToClipboard()
     {
         if (string.IsNullOrEmpty(RoomId))
         {
             // Optionally handle the case where RoomId is null or empty.
             return;
-        
         }
 
         if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
@@ -66,15 +73,8 @@ public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
         });
     }
 
-    public MainWindowViewModel(SignalRService signalRService, UserSetupViewModel userSetupViewModel)
-    {
-        _signalRService = signalRService;
-        userSetupViewModel.UserConfirmed += OnUserConfirmed;
-
-    }
 
     public new event PropertyChangedEventHandler? PropertyChanged;
-    public int Counter { get; set; } = 0;
 
     public async void HandleButtonClick()
     {

@@ -28,8 +28,6 @@ public class UserManager : IUserManager
     public Task<IEnumerable<User>> GetAllUsersInRoomAsync(string roomId)
     {
         var usersInRoom = _users.Values.Where(u => u.RoomId == roomId).ToList();
-        Console.WriteLine("Users in room " + roomId);
-        Console.WriteLine("With usernames " + usersInRoom.Select(u => u.Username));
         foreach (var user in usersInRoom)
         {
             Console.WriteLine(
@@ -42,8 +40,6 @@ public class UserManager : IUserManager
     public Task<IEnumerable<User>> GetAllUsersAsync()
     {
         var users = _users.Values.ToList();
-        Console.WriteLine("Users in user manager");
-        Console.WriteLine(users.Count);
         foreach (var user in users)
         {
             Console.WriteLine(

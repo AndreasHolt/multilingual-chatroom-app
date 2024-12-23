@@ -49,7 +49,7 @@ public class ChatHub : Hub
 
     // SendMessage can be called by a connected client to send a message to all other clients.
     // 1. The client connects to endpoint (/chat).
-    // 2. They can then invoke the exposed function SendMessage at that endpoint, which then sends the message to all other endpoints
+    // 2. They can then invoke the exposed function SendMessage at that endpoint, which then sends the message to all other clients
     public async Task SendMessage(string message)
     {
         // TODO: Maybe let users join late, and then be presented previous messages

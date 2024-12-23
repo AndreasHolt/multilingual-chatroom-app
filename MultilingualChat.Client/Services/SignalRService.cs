@@ -23,12 +23,8 @@ public class SignalRService
         try
         {
             await _connection.StartAsync();
-            // TODO: Redesign to establish connection at "Confirm" button click, rather than at startup
             await _connection.SendAsync("JoinChat", username, language, roomId, chatColor);
             _roomId = roomId;
-            Console.WriteLine("Connected to SignalR hub, connection id is " + _connection.ConnectionId);
-            Console.WriteLine("SignalR Hub: Username and language are " + username + " " + language);
-            Console.WriteLine("SignalR Hub: Room id is " + roomId);
 
         }
         catch (Exception ex)

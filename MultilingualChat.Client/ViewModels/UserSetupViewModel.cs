@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using MultilingualChat.Client.Models;
 using MultilingualChat.Client.Services;
 using ReactiveUI;
 
@@ -27,23 +28,9 @@ public class UserSetupViewModel : ReactiveObject, INotifyPropertyChanged
     }
 
     public string RoomId { get; set; }
-    public string UserColor { get; set; } 
+    public string UserColor { get; set; }
 
     private readonly SignalRService _signalRService;
-
-    public UserSetupViewModel(SignalRService signalRService)
-    {
-        _signalRService = signalRService;
-
-        LanguageList = new ObservableCollection<Language>(
-            CultureInfo.GetCultures(CultureTypes.NeutralCultures)
-                .Where(c => c.Name != "")
-                .OrderBy(c => c.EnglishName)
-                .Select(c => new Language(c.EnglishName))
-                .Distinct(new LanguageComparer())
-        );
-
-    }
 
     private string _username;
 
@@ -62,8 +49,23 @@ public class UserSetupViewModel : ReactiveObject, INotifyPropertyChanged
     }
 
     public Language SelectedLanguageName { get; set; }
+    public ObservableCollection<Language> LanguageList { get; set; }
 
     public event Action<UserSetupResult> UserConfirmed;
+
+    public UserSetupViewModel(SignalRService signalRService)
+    {
+        _signalRService = signalRService;
+
+        LanguageList = new ObservableCollection<Language>(
+            CultureInfo.GetCultures(CultureTypes.NeutralCultures)
+                .Where(c => c.Name != "")
+                .OrderBy(c => c.EnglishName)
+                .Select(c => new Language(c.EnglishName))
+                .Distinct(new LanguageComparer())
+        );
+    }
+
 
     public async Task ConfirmCommand()
     {
@@ -78,22 +80,26 @@ public class UserSetupViewModel : ReactiveObject, INotifyPropertyChanged
             {
                 RoomId = Guid.NewGuid().ToString();
             }
-            
+
             await _signalRService.StartConnectionAsync(Username, SelectedLanguageName.LanguageName, RoomId, UserColor);
 
             UserConfirmed?.Invoke(new UserSetupResult()
-                { Username = Username, Language = SelectedLanguageName.LanguageName, RoomId = RoomId, UserColor = UserColor});
+            {
+                Username = Username, Language = SelectedLanguageName.LanguageName, RoomId = RoomId,
+                UserColor = UserColor
+            });
             Console.WriteLine("Username is " + Username);
             Console.WriteLine("Selected language is " + SelectedLanguageName.LanguageName);
         }
     }
 
-    public ObservableCollection<Language> LanguageList { get; set; }
 
     public UserSetupResult StartChat()
     {
         return new UserSetupResult()
-            { Username = Username, Language = SelectedLanguageName.LanguageName, RoomId = RoomId, UserColor = UserColor};
+        {
+            Username = Username, Language = SelectedLanguageName.LanguageName, RoomId = RoomId, UserColor = UserColor
+        };
     }
 }
 
@@ -103,7 +109,6 @@ public class UserSetupResult
     public string Language { get; set; }
     public string RoomId { get; set; }
     public string UserColor { get; set; }
-    
 }
 
 public class LanguageComparer : IEqualityComparer<Language>

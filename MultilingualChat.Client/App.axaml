@@ -3,14 +3,12 @@
              x:Class="MultilingualChat.Client.App"
              xmlns:local="using:MultilingualChat.Client"
              RequestedThemeVariant="Dark">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
   
     <Application.Styles>
-        <!-- <FluentTheme /> -->
         <ClassicTheme />
         <StyleInclude Source="avares://Classic.Avalonia.Theme.ColorPicker/Classic.axaml"/>
         <StyleInclude Source="Icons.axaml"></StyleInclude>

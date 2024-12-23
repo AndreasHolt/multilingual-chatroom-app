@@ -27,9 +27,6 @@ public class TranslationService : ITranslationService
 
     public async Task<string> TranslateAsync(string message, string sourceLanguage, string targetLanguage)
     {
-        Console.WriteLine("api key is " + _apiKey);
-        Console.WriteLine("api url is " + _apiUrl);
-
         var requestBody = new
         {
             messages = new[]
