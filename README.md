@@ -1,13 +1,13 @@
 # Real-time "Multilingual" Chatroom App
-**Intended usage**: User either joins a room with a room ID, or creates a new room. The user selects their language of preference prior to joining. When a user sends a message in their language in a room, it is received by other users in their own prefered language - allowing them to communicate through language barriers.
+**Intended usage**: User either joins a room with a room ID, or creates a new room. The user selects their language of preference prior to joining. When a user sends a message in their selected language, it is received by all other users in the room, in their own preferred language - allowing them to communicate through language barriers.
 
 ## Demo
 ![Demo](demo.gif)
 
 ## Features
-- A chatroom application featuring real-time messaging with fast language translation powered by Groq's API
+- A chatroom application featuring real-time messaging (WebSocket-based) with language translation using LLMs (fast inference via Groq's API)
   - Use LLM's such as Llama 3.1 8b, Mixtral 8x7b and Gemma 7b
-- Crossplatform: Windows, OSX, Linux and Web (WebAssembly
+- Crossplatform: Windows, OSX, Linux and Web (WebAssembly)
 - Utilizes Avalonia UI for the frontend, and .NET Core for the backend
 - Retro Windows 9.x UI because it's fun
 
