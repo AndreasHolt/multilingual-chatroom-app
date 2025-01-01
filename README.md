@@ -1,8 +1,13 @@
 # Real-time "Multilingual" Chatroom App
-**Intended usage**: User either joins a room with a room ID, or creates a new room. The user selects their language of preference prior to joining. When a user sends a message in their selected language, it is received by all other users in the room, in their own preferred language - allowing them to communicate through language barriers.
+
+**Motivation**: While traditional translation APIs perform word-for-word translations, they often miss the context and nuances of casual conversations, struggling with slang, sayings, and everyday expressions. This project explores using LLMs for more natural and context-aware translations, enabling people to chat naturally across language barriers in real-time.
+
+
 
 ## Demo
 ![Demo](demo.gif)
+
+**Intended usage**: User either joins a room with a room ID, or creates a new room. The user selects their language of preference prior to joining. When a user sends a message in their selected language, it is received by all other users in the room, in their own preferred language - allowing them to communicate through language barriers.
 
 ## Features
 - A chatroom application featuring real-time messaging (WebSocket-based) with language translation using LLMs (fast inference via Groq's API)
